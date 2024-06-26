@@ -12,6 +12,7 @@ const SortBarSection = () => {
                 {
                     sortBtns.map((btns, index) => (
                         <button
+                        key={index}
                             onClick={() => updateSortLink(index + 1)}
                             className={`font-bold py-3 relative ${sortLink === index + 1 && ' text-gray-950 transition duration-1500 before:content-[" "] before:absolute before:left-[-6px] before:top-[8px] before:w-2 before:h-2 before:bg-orange-600 before:rounded-full'}`}>
                             {btns}

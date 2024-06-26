@@ -1,12 +1,12 @@
 import logo from '../assets/Images/logo.png';
 const TopBar = ({ isProductDetails }) => {
     return (
-        <div className="flex md:hidden justify-between items-center px-8 relative top-2 ">
+        <div className="flex md:hidden justify-between items-center p-8 rounded-lg rounded-t-none mx-4 sticky z-50 top-0 shadow-sm bg-gray-50  shadow-zinc-300">
             <div className="order-3 w-8">
                 <img className='w-[100px]' src={logo} alt="logo" />
             </div>
             <h1 className="font-bold order-2 text-2xl">موبایل ملت</h1>
-            <div className="flex order-1 justify-center rounded bg-white items-center p-1 w-8 h-8 shadow-md">
+            <div className="flex order-1 justify-center rounded-[50%] bg-white items-center p-1 w-8 h-8 shadow-zinc-300 shadow-md">
                 {
                     isProductDetails ?
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

@@ -1,20 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js,jsx}"],
-  theme: {
-    extend: {
-      fontFamily: {
-        "sans": ["iranSans"]
-      },
-      transitionDuration: {
-        '1500': '1500ms'
-      }
+export default {
+    content: [
+      "./index.html",
+      "./src/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+      extend: {},
     },
-  },
-  plugins: [
-    require('@tailwindcss/forms'),
-    //tailwind scrollbar plugin
-    require('tailwind-scrollbar')({ nocompatible: true }),
+    plugins: [],
+  }
 
-  ],
-}
+
