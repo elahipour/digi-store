@@ -9,8 +9,8 @@ import DesktopNavbar from "./DesktopNavbar";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Cart from "./Cart";
-const Shop = ({productList}) => {
-    const [isProductDetails, updateIsProductDetails] = useState(false);
+import { useSelector } from "react-redux";
+const Shop = ({productList,isProductDetails,updateIsProductDetails}) => {
     return (
         <div>
             <TopBar/>
@@ -26,7 +26,7 @@ const Shop = ({productList}) => {
                 <div className="grid md:grid-rows[55px,minmax(500px,1fr)] md:grid-cols-12 gap-4 container max-w-screen-2xl mx-auto md:px-4">
                     <SideBarSection isProductDetails={isProductDetails} />
                     <SortBarSection />
-                    <ProductSection productList={productList} isProductDetails={isProductDetails} />
+                    <ProductSection productList={productList} isProductDetails={isProductDetails} updateIsProductDetails={updateIsProductDetails}/>
                 </div>
             </div>
 

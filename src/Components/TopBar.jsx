@@ -5,7 +5,7 @@ const TopBar = ({ isProductDetails }) => {
             <div className="order-3 w-8">
                 <img className='w-[100px]' src={logo} alt="logo" />
             </div>
-            <h1 className="font-bold order-2 text-2xl">موبایل ملت</h1>
+            <h1 className="[@media(max-width:400px)]:text-xl font-bold order-2 text-2xl">موبایل ملت</h1>
             <div className="flex order-1 justify-center rounded-[50%] bg-white items-center p-1 w-8 h-8 shadow-zinc-300 shadow-md">
                 {
                     isProductDetails ?

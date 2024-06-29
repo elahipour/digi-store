@@ -5,6 +5,8 @@ import ProductProperties from './ProductProperties';
 import ProductReview from './ProductReview';
 import Sellers from './Sellers.jsx'
 import { useParams } from "react-router-dom";
+
+
 const ProductDetails = ({ isProductDetails,productList }) => {
     const param=useParams();
     const id=+param.id;
@@ -48,7 +50,7 @@ const {productId,product,productCategory,desc,productPrice,img}=currentProduct;
 
             {/* sellers */}
         
-          <Sellers sellersPosition={'product_details'}/>
+          <Sellers currentProduct={currentProduct} sellersPosition={'product_details'}/>
             <ProductReview desc={desc}/>
         </div>
     );

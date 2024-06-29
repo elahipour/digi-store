@@ -22,12 +22,13 @@ const productList = [
 {productId:8,productCategory:'Laptop',product:'Raider GE78HX 13VH-i9 13950HX 32GB 2SSD RTX4080',productPrice:37000000,desc:'لپ تاپ Raider GE78HX 13VH با مشخصات فنی، کیفیت ساخت و امکانات شگفت‌انگیز خود به راحتی می‌تواند دارندگانش را چندین و چند سال از خرید دستگاه جدید و ارتقا دستگاه خود بی‌نیاز کند. این لپ تاپ به واسطه‌ی بهره‌مندی از قدرتمندترین پردازنده مرکزی لپ تاپی موجود در بازار یعنی Core i9 13950HX که از 24 هسته و 32 رشته بهره‌مند است، به راحتی می‌تواند سنگین‌ترین بازی‌ها و پردازش‌ها را انجام دهد. همچنین، مجهز شدن آن به قدرتمندترین پردازنده گرافیکی موبایلی انویدیا یعنی GeForce RTX 4080 می‌تواند این لپ تاپ را به گزینه‌ی رویایی گیمرها و علاقه‌مندان به بازی‌های ویدیویی تبدیل کند. در کنار موارد ذکر شده، صفحه نمایش با نرخ 240 هرتز و وضوح 1600p به همراه دو ترابایت حافظه‌ی ذخیره‌سازی پر سرعت M.2 SSD و همچنین 32 گیگابایت رم DDR5 با سرعت 5600 مگاهرتز، از ویژگی‌های چشمگیر این لپ تاپ به شمار می‌روند.',img:img8},
 ];
 const App = () => {
+  
   return (
     <div className="bg-gray-100 bg-fixed w-full m-auto h-full">
       <Routes>
         <Route path="/Cart" element={<Cart/>} />
         <Route path="/Favorites" element={<Favorites/>} />
-        <Route path="/Product_details/:id" element={<ProductDetails productList={productList} isProductDetails/>} />
+        <Route path="/Product_details/:id" element={<ProductDetails productList={productList} isProductDetails={ProductDetails}/>} />
         <Route path="/" element={<Shop productList={productList}/>} />
       </Routes>
     </div>

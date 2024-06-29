@@ -1,6 +1,13 @@
-import React from "react";
-
-const Sellers = ({ sellersPosition }) => {
+import { useDispatch } from "react-redux";
+import { addProduct, removeProduct } from "../features/products/cartReducer.js";
+import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+const Sellers = ({ sellersPosition, currentProduct }) => {
+  const dispatch = useDispatch();
+  function addToCart() {
+    dispatch(addProduct(currentProduct));
+    toast("به سبد خرید اضافه شد.");
+  }
   return (
     <div
       className={`flex flex-col rounded-lg  bg-gray-100 mx-2 gap-y-8 md:absolute h-[190px] max-[323px]:h-[230px] md:h-[240px] ${
@@ -73,12 +80,25 @@ const Sellers = ({ sellersPosition }) => {
       </div>
       <div className="flex flex-wrap  gap-y-4 justify-center md:flex-col px-4 w-full md:gap-y-0 md:items-center  max-[767px]:mt-8">
         <span className="md:order-2 max-[323px]:order-2 md:w-full md:flex md:items-center">
-          <a
+          <Link
             href=""
             className="px-8 py-3 rounded-md  bg-red-400 text-sm text-white font-bold md:w-full text-center"
+            onClick={addToCart}
           >
             اضافه به سبد خرید
-          </a>
+          </Link>
+          <Toaster
+            toastOptions={{
+              className: "",
+              style: {
+                fontWeight: "500",
+                padding: "16px",
+                color: "#31708f",
+                backgroundColor: "#d9edf7"
+              },
+            }}
+            gutter={10}
+          />
         </span>
         <span className="flex justify-center md:justify-start flex-auto gap-2 md:order-1 max-[323px]:order-1">
           <span className="font-bold">28,200,000</span>
