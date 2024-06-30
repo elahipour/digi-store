@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import {increament,decreament,removeProduct} from '../features/products/cartReducer';
+import {increament,decreament,removeProduct} from '../features/cart/cartSlice';
 import toast,{Toaster} from 'react-hot-toast'
 const CartItemsList = ({ product }) => {
     const dispatch=useDispatch();

@@ -5,6 +5,7 @@ import ProductProperties from './ProductProperties';
 import ProductReview from './ProductReview';
 import Sellers from './Sellers.jsx'
 import { useParams } from "react-router-dom";
+import BottomBar from "./BottomBar.jsx";
 
 
 const ProductDetails = ({ isProductDetails,productList }) => {
@@ -52,6 +53,7 @@ const {productId,product,productCategory,desc,productPrice,img}=currentProduct;
         
           <Sellers currentProduct={currentProduct} sellersPosition={'product_details'}/>
             <ProductReview desc={desc}/>
+            <BottomBar/>
         </div>
     );
 };
