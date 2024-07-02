@@ -1,29 +1,27 @@
-
 import BottomBar from "./BottomBar";
 import DesktopNavbar from "./DesktopNavbar";
 import CartItemsList from "./CartItemsList";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import { useSelector,useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { clearBasket,calcTotal,discount } from "../features/cart/cartSlice";
-
+import { useSelector, useDispatch } from "react-redux";
+import { Link, json, useNavigate } from "react-router-dom";
+import { clearBasket, calcTotal, discount } from "../features/cart/cartSlice";
+import {getCartItems} from '../features/cart/cartSlice';
 const Cart = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.total);
-  const afterDicount=useSelector(state=>state.cart.totalAfterDiscount);
-  const discountValue=useSelector(state=>state.cart.discountValue);
-  const [discountCode,setDisountCode]=useState('');
-  const dispatch=useDispatch();
+  const afterDicount = useSelector((state) => state.cart.totalAfterDiscount);
+  const discountValue = useSelector((state) => state.cart.discountValue);
+  const [discountCode, setDisountCode] = useState("");
+  const dispatch = useDispatch();
   // const [isProductDetails, updateIsProductDetails] = useState(false);
   useEffect(() => {
+    dispatch(calcTotal());
     setTimeout(() => {
       !cart.length && navigate("/");
     }, 1000);
-    dispatch(calcTotal());
   }, [cart]);
-
 
   return (
     <div>
@@ -85,9 +83,12 @@ const Cart = () => {
                   className="border-none  rounded-tr-lg rounded-br-lg w-32 min-[410px]:w-full outline-0 ring-1 ring-white"
                   placeholder="کد را وارد کنید"
                   value={discountCode}
-                  onChange={(e)=>setDisountCode(e.target.value)}
+                  onChange={(e) => setDisountCode(e.target.value)}
                 />
-                <button onClick={()=>dispatch(discount(discountCode))} className="text-center bg-orange-400 px-4 py-2  rounded-tl-lg rounded-bl-lg text-white">
+                <button
+                  onClick={() => dispatch(discount(discountCode))}
+                  className="text-center bg-orange-400 px-4 py-2  rounded-tl-lg rounded-bl-lg text-white"
+                >
                   اعمال
                 </button>
               </div>
@@ -103,12 +104,18 @@ const Cart = () => {
 
             <div className="flex flex-col min-[410px]:flex-row md:flex-col lg:flex-row items-center gap-4">
               <span className="w-full">
-                <Link to={'/'} className="px-4 min-[1024px]:px-2 py-2 w-full block text-center bg-orange-400 text-white font-bold rounded-md">
+                <Link
+                  to={"/"}
+                  className="px-4 min-[1024px]:px-2 py-2 w-full block text-center bg-orange-400 text-white font-bold rounded-md"
+                >
                   ادامه فرآیند خرید
                 </Link>
               </span>
               <span className="w-full">
-                <Link onClick={()=>dispatch(clearBasket())} className="px-4 py-2 block text-center w-full bg-white text-orange-400 border-2 border-orange-400 rounded-md font-bold">
+                <Link
+                  onClick={() => dispatch(clearBasket())}
+                  className="px-4 py-2 block text-center w-full bg-white text-orange-400 border-2 border-orange-400 rounded-md font-bold"
+                >
                   انصراف از خرید
                 </Link>
               </span>

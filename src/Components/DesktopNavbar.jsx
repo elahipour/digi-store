@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import shoppingCartImg from '../assets/Images/shopping-bag-icon.svg';
 import favoriteImg from '../assets/Images/heart-lover-svgrepo-com.svg'
 import navbarLogo from '../assets/Images/logo.png'
 const DesktopNavbar = () => {
-  const [mobileMenuVisibility, updateMobileMenuVisibility] = useState(false);
-  const cart = useSelector((state) => state.cart);
-  const favoritesList = useSelector((state) => state.favorite);
-
+  const cart = useSelector((state) => state.cart.cartItems);
+  const favorites=useSelector(state=>state.product);
   return (
     <nav className="sticky hidden md:block rounded-md md:rounded-none bg-white md:mx-0 top-0 mt-4 md:mt-0 items-end shadow-lg py-5 z-10">
       <div className="container max-w-screen-2xl flex justify-between gap-x-4 mx-auto">
@@ -79,14 +76,16 @@ const DesktopNavbar = () => {
             </li> :null
           }
            {
-           favoritesList.length ? <li>
+           favorites.filter(product=>product.like).length ? 
+           <li>
               <Link
                 to="/Favorites"
                 className="block py-2 px-4 hover:bg-gray-200 rounded"
               >
                 <span className='flex flex-row-reverse gap-2'><i className="not-italic">علاقه مندی ها</i><img src={favoriteImg} alt="favorites" /></span>
               </Link>
-            </li> :null
+            </li> 
+            :null
           }
         </ul>
       </div>

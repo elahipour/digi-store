@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
 import ProductColors from "./ProductColors";
 import {  useDispatch } from "react-redux";
-import {toggleFavorite} from '../features/favorite/favoriteSlice'
+import { likeToggle } from "../features/product/productSlice";
 const ProductItem = ({ product,favKey }) => {
   const dispatch=useDispatch();
+  function isFav(){
+    dispatch(likeToggle(product))
+  }
   return (
     <div className="bg-white overflow-hidden rounded-xl flex flex-col shadow-md px-2">
       <div className="w-full h-full rounded-xl relative  overflow-hidden">
-        <button onClick={()=>dispatch(toggleFavorite(product))} className="rounded-full flex justify-center items-center absolute top-2 right-2 md:top-2 md:right-0 w-7 h-7 bg-gray-200 ">
+        <button onClick={()=>isFav()} className='rounded-full flex justify-center items-center absolute top-2 right-2 md:top-2 md:right-0 w-7 h-7 bg-gray-200'>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-3 w-3"
-            fill="orange"
+            className={`${product.like && !favKey?'animate-like h-5 w-5':favKey ?'h-5 w-5': 'animate-dislike h-3 w-3'}`}
+            fill={`${product.like && !favKey?'red':favKey ?'red':'orange'}`}
             viewBox="0 0 24 24"
             stroke="none"
             strokeWidth="2"
