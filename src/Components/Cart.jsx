@@ -4,9 +4,8 @@ import CartItemsList from "./CartItemsList";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearBasket, calcTotal, discount } from "../features/cart/cartSlice";
-import {getCartItems} from '../features/cart/cartSlice';
 const Cart = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cartItems);

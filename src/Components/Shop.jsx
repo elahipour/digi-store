@@ -5,31 +5,52 @@ import SideBarSection from "./SideBarSection";
 import SortBarSection from "./SortBarSection";
 import ProductSection from "./ProductSection";
 import DesktopNavbar from "./DesktopNavbar";
-const Shop = ({isProductDetails,updateIsProductDetails}) => {
-    return (
-        <div>
-            <TopBar/>
-            <div className="flex flex-col gap-8 h-full">
-                {
-                    isProductDetails && <><TopBar /> <SortBar /> </>
-                }
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-                <DesktopNavbar />
+const Shop = ({ isProductDetails, updateIsProductDetails, productList }) => {
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchedProducts, updateSearchedProducts] = useState([]);
 
-                <BottomBar />
-                {/* md and bigger */}
-                <div className="grid md:grid-rows[55px,minmax(500px,1fr)] md:grid-cols-12 gap-4 container max-w-screen-2xl mx-auto md:px-4">
-                    <SideBarSection isProductDetails={isProductDetails} />
-                    <SortBarSection />
-                    <ProductSection isProductDetails={isProductDetails} updateIsProductDetails={updateIsProductDetails}/>
-                </div>
-            </div>
-
-        
-
-
-        </div>
+  const handleSearch = (search) => {
+    setSearchParams({ search: search });
+  };
+  useEffect(() => {
+    const searchTerm = searchParams.get("search") || "";
+    const searchResult = productList.filter((product) =>
+      product.product.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    updateSearchedProducts(searchResult);
+  }, [searchParams, productList]);
+
+  return (
+    <div>
+      <TopBar />
+      <div className="flex flex-col gap-8 h-full">
+        {isProductDetails && (
+          <>
+            <TopBar /> <SortBar />{" "}
+          </>
+        )}
+
+        <DesktopNavbar handleSearch={handleSearch} />
+
+        <BottomBar />
+        {/* md and bigger */}
+        <div className="grid md:grid-rows[55px,minmax(500px,1fr)] md:grid-cols-12 gap-4 container max-w-screen-2xl mx-auto md:px-4">
+          <SideBarSection isProductDetails={isProductDetails} />
+          <SortBarSection />
+          <ProductSection
+            searchedProducts={searchedProducts}
+            isProductDetails={isProductDetails}
+            updateIsProductDetails={updateIsProductDetails}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Shop;

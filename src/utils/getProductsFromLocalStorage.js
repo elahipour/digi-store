@@ -1,11 +1,11 @@
-function getProductsFromLocalStorage(products){
-    let productsInLocalStorage=JSON.parse(localStorage.getItem('products'));
-    if(!productsInLocalStorage) {
-    localStorage.setItem('products', JSON.stringify(products));
-    productsInLocalStorage=JSON.parse(localStorage.getItem('products'));
-    console.log(productsInLocalStorage)
-  }
-    return productsInLocalStorage;
-  }
+function getProductsFromLocalStorage(products) {
+  let productsInLocalStorage = JSON.parse(localStorage.getItem("products"));
 
-  export {getProductsFromLocalStorage}
+  if (productsInLocalStorage) return productsInLocalStorage;
+
+  localStorage.setItem("products", JSON.stringify(products));
+  productsInLocalStorage = JSON.parse(localStorage.getItem("products"));
+  return productsInLocalStorage;
+}
+
+export { getProductsFromLocalStorage };

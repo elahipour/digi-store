@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addProduct, removeProduct } from "../features/cart/cartSlice.js";
+import { addProduct } from "../features/cart/cartSlice.js";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 const Sellers = ({ sellersPosition, currentProduct }) => {

@@ -32,7 +32,7 @@ const App = () => {
             />
           }
         />
-        <Route path="/" element={<Shop/>} />
+        <Route path="/" element={<Shop productList={productList} />} />
       </Routes>
     </div>
   );

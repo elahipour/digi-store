@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import shoppingCartImg from '../assets/Images/shopping-bag-icon.svg';
 import favoriteImg from '../assets/Images/heart-lover-svgrepo-com.svg'
 import navbarLogo from '../assets/Images/logo.png'
-const DesktopNavbar = () => {
+import { useState } from "react";
+const DesktopNavbar = ({handleSearch}) => {
   const cart = useSelector((state) => state.cart.cartItems);
   const favorites=useSelector(state=>state.product);
+  const [searchInput,updateSearchInput]=useState('');
   return (
     <nav className="sticky hidden md:block rounded-md md:rounded-none bg-white md:mx-0 top-0 mt-4 md:mt-0 items-end shadow-lg py-5 z-10">
       <div className="container max-w-screen-2xl flex justify-between gap-x-4 mx-auto">
         <div className="flex order-2 gap-2 items-center relative w-1/3  [@media(max-width:920px)]:w-1.5/4 py-2">
           <svg
+          onClick={()=>handleSearch(searchInput)}
             className=" absolute right-[8px] w-6 h-6"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -28,6 +31,8 @@ const DesktopNavbar = () => {
             className="w-full ml-4 pr-9 pl-4 border-none rounded-lg focus:outline-none ring ring-1 py-2 ring-orange-200 focus:ring-2 focus:ring-orange-300"
             type="text"
             placeholder="جستوجو"
+            onChange={(e)=>updateSearchInput(e.target.value)}
+            value={searchInput}
           />
         </div>
         <ul className="flex order-1 flex-col md:flex-row [@media(min-width:920px)]:gap-2 [@media(max-width:920px)]:w-full items-center space-between w-1/2 md:w-fit ">
