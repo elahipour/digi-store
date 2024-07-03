@@ -1,14 +1,23 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-// import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+// import ALinkrrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import {Link, useSearchParams} from 'react-router-dom';
 import Sellers from "./Sellers";
 const SideBarSection = ({ isProductDetails }) => {
   const [expanded, setExpanded] = useState("panel1");
-
+  const [searchParams,updateSearchParams]=useSearchParams();
+function handleCategory(e){
+  e.preventDefault();
+  const name=e.target.tagName;
+  const search=searchParams.get('search')||'';
+  const targetCategory=e.target.dataset.category;
+if(e.target.tagName==='A')
+  updateSearchParams({search:search,category:targetCategory})
+}
   function handleChange(panel) {
     return (e, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -25,11 +34,13 @@ const SideBarSection = ({ isProductDetails }) => {
           <h3 className="text-orange-400 font-bold text-xl">دسته بندی</h3>
           <ul className="flex flex-col mt-4 gap-2">
             <li className="text-lg">
-              <a
+              <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
+                data-category='laptop'
+                onClick={handleCategory}
               >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative ">
+                <span className="w-6 h-6 bg-gray-200 rounded-full relative  pointer-events-none">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -39,22 +50,25 @@ const SideBarSection = ({ isProductDetails }) => {
                     className="w-6 h-6 absolute right-2 top-2"
                   >
                     <path
+                  
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
                     />
                   </svg>
                 </span>
-                <span>لپ تاپ</span>
-              </a>
+                <span className=" pointer-events-none">لپ تاپ</span>
+              </Link>
             </li>
 
             <li className="text-lg">
-              <a
+              <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
+                data-category='smartPhone'
+                onClick={handleCategory}
               >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative ">
+                <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -70,16 +84,18 @@ const SideBarSection = ({ isProductDetails }) => {
                     />
                   </svg>
                 </span>
-                <span>موبایل هوشمند</span>
-              </a>
+                <span className="pointer-events-none">موبایل هوشمند</span>
+              </Link>
             </li>
 
             <li className="text-lg">
-              <a
+              <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
+                data-category='smartWatch'
+                onClick={handleCategory}
               >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative ">
+                <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -95,8 +111,8 @@ const SideBarSection = ({ isProductDetails }) => {
                     />
                   </svg>
                 </span>
-                <span>ساعت هوشمند</span>
-              </a>
+                <span className="pointer-events-none">ساعت هوشمند</span>
+              </Link>
             </li>
           </ul>
           <h3 className="text-orange-400 font-bold text-xl mt-4">جستوجوی پیشرفته</h3>

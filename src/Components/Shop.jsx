@@ -8,21 +8,21 @@ import DesktopNavbar from "./DesktopNavbar";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { filterProduct } from "../utils/filterProduct";
 
 const Shop = ({ isProductDetails, updateIsProductDetails, productList }) => {
-  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchedProducts, updateSearchedProducts] = useState([]);
 
   const handleSearch = (search) => {
-    setSearchParams({ search: search });
+    const filtered=filterProduct(productList,searchParams);
+    const category=searchParams.get('category')||'';
+    setSearchParams({ search: search ,category:category});
+    updateSearchedProducts(filtered)
   };
   useEffect(() => {
-    const searchTerm = searchParams.get("search") || "";
-    const searchResult = productList.filter((product) =>
-      product.product.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    updateSearchedProducts(searchResult);
+    const filtered=filterProduct(productList,searchParams);
+    updateSearchedProducts(filtered);
   }, [searchParams, productList]);
 
   return (
