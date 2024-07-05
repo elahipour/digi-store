@@ -1,23 +1,87 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 // import ALinkrrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import {Link, useSearchParams} from 'react-router-dom';
+import { Link, useSearchParams } from "react-router-dom";
 import Sellers from "./Sellers";
+import BrandFilter from "./BrandFilter";
 const SideBarSection = ({ isProductDetails }) => {
+  const formRef=useRef();
   const [expanded, setExpanded] = useState("panel1");
-  const [searchParams,updateSearchParams]=useSearchParams();
-function handleCategory(e){
-  e.preventDefault();
-  const name=e.target.tagName;
-  const search=searchParams.get('search')||'';
-  const targetCategory=e.target.dataset.category;
-if(e.target.tagName==='A')
-  updateSearchParams({search:search,category:targetCategory})
-}
+  const [searchParams, updateSearchParams] = useSearchParams();
+  const [formElems, setFormElems] = useState({
+    priceFliterCheckbox1: false,
+    priceFliterCheckbox2: false,
+    priceFliterCheckbox3: false,
+    priceFliterCheckbox4: false,
+  });
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const targetCategory = searchParams.get("category") || "";
+    const brandFilter = searchParams.get("brand") || "";
+
+    const isAllPriceChecked = Object.values(formElems).filter(
+      (checked) => checked
+    );
+    if (!isAllPriceChecked.length) {
+      updateSearchParams({
+        search: search,
+        category: targetCategory,
+        brand:brandFilter
+      });
+    }
+  }, [formElems]);
+
+  function handleCheckChanges(e){
+    const { name, checked, tagName, dataset } = e.target;
+    setFormElems({ ...formElems, [name]: checked });
+    const search = searchParams.get("search") || "";
+    const targetCategory = searchParams.get("category") || "";
+    const brandFilter = searchParams.get("brand") || "";
+    let checkBoxes=formRef.current.querySelectorAll('input');
+    checkBoxes=Array.from(checkBoxes)
+    
+    if (tagName !== "INPUT") return;
+    if(e.target.checked){
+      for(let item of checkBoxes){
+        if(item.checked) {
+          updateSearchParams({
+            search: search,
+            category: targetCategory,
+            lessthan: item.dataset.price,
+            brand: brandFilter,
+          });
+        }
+      }
+    }else{
+      
+      for(let item of checkBoxes){
+        if(item.checked) {
+          updateSearchParams({
+            search: search,
+            category: targetCategory,
+            lessthan: item.dataset.price,
+            brand: brandFilter,
+          });
+        }
+      }
+    }
+
+
+  }
+
+  function handleCategory(e) {
+    e.preventDefault();
+    const name = e.target.tagName;
+    const search = searchParams.get("search") || "";
+    const targetCategory = e.target.dataset.category;
+    if (name === "A")
+      updateSearchParams({ search: search, category: targetCategory });
+  }
+
   function handleChange(panel) {
     return (e, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -37,7 +101,7 @@ if(e.target.tagName==='A')
               <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category='laptop'
+                data-category="laptop"
                 onClick={handleCategory}
               >
                 <span className="w-6 h-6 bg-gray-200 rounded-full relative  pointer-events-none">
@@ -50,7 +114,6 @@ if(e.target.tagName==='A')
                     className="w-6 h-6 absolute right-2 top-2"
                   >
                     <path
-                  
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
@@ -65,7 +128,7 @@ if(e.target.tagName==='A')
               <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category='smartPhone'
+                data-category="smartPhone"
                 onClick={handleCategory}
               >
                 <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
@@ -92,7 +155,7 @@ if(e.target.tagName==='A')
               <Link
                 href="#"
                 className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category='smartWatch'
+                data-category="smartWatch"
                 onClick={handleCategory}
               >
                 <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
@@ -115,7 +178,9 @@ if(e.target.tagName==='A')
               </Link>
             </li>
           </ul>
-          <h3 className="text-orange-400 font-bold text-xl mt-4">جستوجوی پیشرفته</h3>
+          <h3 className="text-orange-400 font-bold text-xl mt-4">
+            جستوجوی پیشرفته
+          </h3>
           <ul className="flex flex-col mt-4 gap-2">
             {
               <li className="text-lg relative hover:bg-gray-100">
@@ -170,52 +235,70 @@ if(e.target.tagName==='A')
                   </MuiAccordionSummary>
                   <MuiAccordionDetails>
                     <Typography component={"span"}>
-                      <ul className="flex gap-1 flex-col py-2 divide-y-1 relative divide-gray-950">
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="price-1"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="price-1"
-                            className="cursor-pointer select-none"
-                          >{`<100000`}</label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="price-2"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="price-2"
-                            className="cursor-pointer select-none"
-                          >{`<2000000`}</label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="price-3"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="price-3"
-                            className="cursor-pointer select-none"
-                          >{`<1000000`}</label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="price-4"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="price-4"
-                            className="cursor-pointer select-none"
-                          >{`<1500000`}</label>
-                        </li>
-                      </ul>
+                      <form ref={formRef}>
+                        <ul className="flex gap-1 flex-col py-2 divide-y-1 relative divide-gray-950">
+                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
+                            <input
+                              id="price-1"
+                              type="checkbox"
+                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
+                              name="priceFliterCheckbox1"
+                              data-price={10000000}
+                              checked={formElems["priceFliterCheckbox1"]}
+                              onChange={handleCheckChanges}
+                            />
+                            <label
+                              htmlFor="price-1"
+                              className="cursor-pointer select-none"
+                            >{`کمتر از 1 میلیون`}</label>
+                          </li>
+                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
+                            <input
+                              id="price-2"
+                              type="checkbox"
+                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
+                              name="priceFliterCheckbox2"
+                              data-price={20000000}
+                              checked={formElems["priceFliterCheckbox2"]}
+                              onChange={handleCheckChanges}
+                            />
+                            <label
+                              htmlFor="price-2"
+                              className="cursor-pointer select-none"
+                            >{`کمتر از 20 میلیون`}</label>
+                          </li>
+                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
+                            <input
+                              id="price-3"
+                              type="checkbox"
+                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
+                              name="priceFliterCheckbox3"
+                              data-price={30000000}
+                              checked={formElems["priceFliterCheckbox3"]}
+                              onChange={handleCheckChanges}
+                            />
+                            <label
+                              htmlFor="price-3"
+                              className="cursor-pointer select-none"
+                            >{`کمتر از 30 میلیون`}</label>
+                          </li>
+                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
+                            <input
+                              id="price-4"
+                              type="checkbox"
+                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
+                              name="priceFliterCheckbox4"
+                              data-price={40000000}
+                              checked={formElems["priceFliterCheckbox4"]}
+                              onChange={handleCheckChanges}
+                            />
+                            <label
+                              htmlFor="price-4"
+                              className="cursor-pointer select-none"
+                            >{`کمتر از 40 میلیون`}</label>
+                          </li>
+                        </ul>
+                      </form>
                     </Typography>
                   </MuiAccordionDetails>
                 </MuiAccordion>
@@ -274,60 +357,7 @@ if(e.target.tagName==='A')
                   </MuiAccordionSummary>
                   <MuiAccordionDetails>
                     <Typography component={"span"}>
-                      <ul className="flex gap-1 flex-col py-2 divide-y-1 relative divide-gray-950">
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="brand-1"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="brand-1"
-                            className="cursor-pointer select-none"
-                          >
-                            اپل
-                          </label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="brand-2"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="brand-2"
-                            className="cursor-pointer select-none"
-                          >
-                            سامسونگ
-                          </label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="brand-3"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="brand-3"
-                            className="cursor-pointer select-none"
-                          >
-                            شیائومی
-                          </label>
-                        </li>
-                        <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                          <input
-                            id="brand-4"
-                            type="checkbox"
-                            className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="brand-4"
-                            className="cursor-pointer select-none"
-                          >
-                            هوآوی
-                          </label>
-                        </li>
-                      </ul>
+                     <BrandFilter/>
                     </Typography>
                   </MuiAccordionDetails>
                 </MuiAccordion>

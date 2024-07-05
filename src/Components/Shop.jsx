@@ -7,7 +7,6 @@ import ProductSection from "./ProductSection";
 import DesktopNavbar from "./DesktopNavbar";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { filterProduct } from "../utils/filterProduct";
 
 const Shop = ({ isProductDetails, updateIsProductDetails, productList }) => {
