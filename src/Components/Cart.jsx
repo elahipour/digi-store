@@ -6,6 +6,7 @@ import Spinner from "./Spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearBasket, calcTotal, discount } from "../features/cart/cartSlice";
+import BreadCrump from "./BreadCrump";
 const Cart = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cartItems);
@@ -25,14 +26,8 @@ const Cart = () => {
   return (
     <div>
       <div className="flex flex-col gap-8 h-full">
-        {/* {isProductDetails && (
-          <>
-            <TopBar /> <SortBar />{" "}
-          </>
-        )} */}
-
         <DesktopNavbar />
-
+        <BreadCrump />
         <BottomBar />
         {/* md and bigger */}
         <div className="flex flex-col md:flex-row w-full bg-gray-200 mb-20 rounded-md mx-auto my-4 px-4 py-4 gap-4 container max-w-screen-2xl">

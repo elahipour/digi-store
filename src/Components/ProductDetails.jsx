@@ -16,7 +16,7 @@ const {productId,product,productCategory,desc,productPrice,img}=currentProduct;
     return (
         <div className={`${!isProductDetails && 'hidden'} flex flex-col gap-y-4 max-w-[1200px] relative mx-auto bg-white`}>
             <TopBar />
-            <BreadCrump />
+            <BreadCrump currentProduct={currentProduct}/>
             {/* product details */}
             <div className='md:flex md:px-4'>
                 <div className='flex flex-col gap-y-4'>

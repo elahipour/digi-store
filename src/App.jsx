@@ -1,17 +1,17 @@
 import Cart from "./Components/Cart";
 import Shop from "./Components/Shop";
 import Favorites from "./Components/Favorites";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useSearchParams } from "react-router-dom";
 import ProductDetails from "./Components/ProductDetails";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Spinner from "./Components/Spinner";
 
 const App = () => {
   const productList = useSelector((state) => state.product);
   useEffect(() => {
     setProductsToLocalStorage();
   }, []);
-
   function setProductsToLocalStorage() {
     const products = JSON.parse(localStorage.getItem("products"));
     if (products) return;
@@ -32,7 +32,7 @@ const App = () => {
             />
           }
         />
-        <Route path="/" element={<Shop productList={productList} />} />
+        <Route path="/" element={<Shop productList={productList}/>} />
       </Routes>
     </div>
   );

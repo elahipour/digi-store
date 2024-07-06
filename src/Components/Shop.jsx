@@ -21,6 +21,7 @@ const Shop = ({ isProductDetails, updateIsProductDetails, productList }) => {
   };
   useEffect(() => {
     const filtered=filterProduct(productList,searchParams);
+
     updateSearchedProducts(filtered);
   }, [searchParams, productList]);
 

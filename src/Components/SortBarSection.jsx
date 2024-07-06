@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
+const sortBtns=["محبوب ترین", "گران ترین", "ارزان ترین", "پرفروش ترین"]
 const SortBarSection = () => {
-    const [sortLink, updateSortLink] = useState(0);
-    const [sortBtns, setSortBtns] = useState(["محبوب ترین", "گران ترین", "ارزان ترین", "پرفروش ترین"])
+    const [sortLink, updateSortLink] = useState('محبوب ترین');
+const [searchParams,updateSearchParams]=useSearchParams();
+const search = searchParams.get("search") || "";
+const targetCategory = searchParams.get("category") || "";
+const brandFilter = searchParams.get("brand") || "";
+const price = searchParams.get("lessthan") || "";
+    useEffect(()=>{
+        updateSearchParams({
+                search: search,
+                category: targetCategory,
+                lessthan: price,
+                brand: brandFilter,
+                sortby:sortLink
+          });
+    },[sortLink,searchParams])
     return (
         <div className=" hidden bg-white md:block  md:col-span-9 lg:col-span-9 min-[768px]:col-span-8 max-[947px]:col-span-8 xl:col-span-10   px-2 rounded-xl">
             <div className="flex gap-4 text-gray-400 flex items-center  mr-1">
@@ -13,8 +28,8 @@ const SortBarSection = () => {
                     sortBtns.map((btns, index) => (
                         <button
                         key={index}
-                            onClick={() => updateSortLink(index + 1)}
-                            className={`font-bold py-3 relative ${sortLink === index + 1 && ' text-gray-950 transition duration-1500 before:content-[" "] before:absolute before:left-[-6px] before:top-[8px] before:w-2 before:h-2 before:bg-orange-600 before:rounded-full'}`}>
+                            onClick={() => updateSortLink(btns)}
+                            className={`font-bold py-3 relative ${sortLink === btns && ' text-gray-950 transition duration-1500 before:content-[" "] before:absolute before:left-[-6px] before:top-[8px] before:w-2 before:h-2 before:bg-orange-600 before:rounded-full'}`}>
                             {btns}
                         </button>
                     ))

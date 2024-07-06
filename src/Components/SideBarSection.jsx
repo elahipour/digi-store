@@ -31,6 +31,7 @@ const SideBarSection = ({ isProductDetails }) => {
         search: search,
         category: targetCategory,
         brand:brandFilter
+        
       });
     }
   }, [formElems]);
@@ -77,9 +78,10 @@ const SideBarSection = ({ isProductDetails }) => {
     e.preventDefault();
     const name = e.target.tagName;
     const search = searchParams.get("search") || "";
+    const brandFilter = searchParams.get("brand") || "";
     const targetCategory = e.target.dataset.category;
     if (name === "A")
-      updateSearchParams({ search: search, category: targetCategory });
+      updateSearchParams({ search: search,brand:brandFilter, category: targetCategory });
   }
 
   function handleChange(panel) {
