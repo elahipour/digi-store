@@ -6,15 +6,32 @@ const BrandFilter = () => {
   const resetForm = {
     fujitsu: false,
     acer: false,
-    sony: false,
+    sony:false,
     asus: false,
     MSI: false,
     HP: false,
     lenovo: false,
   };
   const [formElems, updateFormElems] = useState({
-    ...resetForm,
+    fujitsu: isCheckedBrand('fujitsu')||false,
+    acer: isCheckedBrand('acer')||false,
+    sony: isCheckedBrand('sony')||false,
+    asus: isCheckedBrand('asus')||false,
+    MSI: isCheckedBrand('MSI')||false,
+    HP: isCheckedBrand('HP')||false,
+    lenovo: isCheckedBrand('lenovo')||false,
   });
+
+  function isCheckedBrand(currentBrand){
+    const brandParams=searchParams.get('brand')||'';
+    const brands=brandParams.split('_');
+    for (const brand of brands) {
+      if(brand===currentBrand) return true
+    
+    }
+
+  }
+
   useEffect(() => {
     const selectedBrand = [];
     for (const key in formElems) {
@@ -46,7 +63,7 @@ const BrandFilter = () => {
     <form ref={brandFormRef}>
       <ul className="flex gap-1 flex-col py-2 divide-y-1 relative divide-gray-950">
         {
-         Object.keys(resetForm).map(brand=>{
+         Object.keys(formElems).map(brand=>{
            return <li key={brand} className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
             <input
               name={brand}

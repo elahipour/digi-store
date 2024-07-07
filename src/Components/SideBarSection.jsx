@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { styled } from "@mui/material/styles";
-// import ALinkrrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
@@ -8,16 +6,28 @@ import Typography from "@mui/material/Typography";
 import { Link, useSearchParams } from "react-router-dom";
 import Sellers from "./Sellers";
 import BrandFilter from "./BrandFilter";
+import Category from "./Category";
+import PriceFilter from "./PriceFilter";
 const SideBarSection = ({ isProductDetails }) => {
-  const formRef=useRef();
+  const formRef = useRef();
   const [expanded, setExpanded] = useState("panel1");
   const [searchParams, updateSearchParams] = useSearchParams();
-  const [formElems, setFormElems] = useState({
-    priceFliterCheckbox1: false,
-    priceFliterCheckbox2: false,
-    priceFliterCheckbox3: false,
-    priceFliterCheckbox4: false,
+
+  const [formElems, updateFormElems] = useState({
+    priceFilter1: isCheckedBrand("10000000") || false,
+    priceFilter2: isCheckedBrand("20000000") || false,
+    priceFilter3: isCheckedBrand("30000000") || false,
+    priceFilter4: isCheckedBrand("40000000") || false,
   });
+
+  function isCheckedBrand(currentBrand) {
+    const lessThanParam = searchParams.get("lessthan") || "";
+    const lessthan = lessThanParam.split("_");
+    for (const price of lessthan) {
+      if (price === currentBrand) return true;
+    }
+  }
+
   useEffect(() => {
     const search = searchParams.get("search") || "";
     const targetCategory = searchParams.get("category") || "";
@@ -30,25 +40,24 @@ const SideBarSection = ({ isProductDetails }) => {
       updateSearchParams({
         search: search,
         category: targetCategory,
-        brand:brandFilter
-        
+        brand: brandFilter,
       });
     }
   }, [formElems]);
 
-  function handleCheckChanges(e){
+  function handleCheckChanges(e) {
     const { name, checked, tagName, dataset } = e.target;
-    setFormElems({ ...formElems, [name]: checked });
+    updateFormElems({ ...formElems, [name]: checked });
     const search = searchParams.get("search") || "";
     const targetCategory = searchParams.get("category") || "";
     const brandFilter = searchParams.get("brand") || "";
-    let checkBoxes=formRef.current.querySelectorAll('input');
-    checkBoxes=Array.from(checkBoxes)
-    
+    let checkBoxes = formRef.current.querySelectorAll("input");
+    checkBoxes = Array.from(checkBoxes);
+
     if (tagName !== "INPUT") return;
-    if(e.target.checked){
-      for(let item of checkBoxes){
-        if(item.checked) {
+    if (e.target.checked) {
+      for (let item of checkBoxes) {
+        if (item.checked) {
           updateSearchParams({
             search: search,
             category: targetCategory,
@@ -57,10 +66,9 @@ const SideBarSection = ({ isProductDetails }) => {
           });
         }
       }
-    }else{
-      
-      for(let item of checkBoxes){
-        if(item.checked) {
+    } else {
+      for (let item of checkBoxes) {
+        if (item.checked) {
           updateSearchParams({
             search: search,
             category: targetCategory,
@@ -70,8 +78,6 @@ const SideBarSection = ({ isProductDetails }) => {
         }
       }
     }
-
-
   }
 
   function handleCategory(e) {
@@ -81,7 +87,11 @@ const SideBarSection = ({ isProductDetails }) => {
     const brandFilter = searchParams.get("brand") || "";
     const targetCategory = e.target.dataset.category;
     if (name === "A")
-      updateSearchParams({ search: search,brand:brandFilter, category: targetCategory });
+      updateSearchParams({
+        search: search,
+        brand: brandFilter,
+        category: targetCategory,
+      });
   }
 
   function handleChange(panel) {
@@ -98,88 +108,7 @@ const SideBarSection = ({ isProductDetails }) => {
 
         <div className=" bg-white py-5 px-4 rounded-xl">
           <h3 className="text-orange-400 font-bold text-xl">دسته بندی</h3>
-          <ul className="flex flex-col mt-4 gap-2">
-            <li className="text-lg">
-              <Link
-                href="#"
-                className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category="laptop"
-                onClick={handleCategory}
-              >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative  pointer-events-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 absolute right-2 top-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
-                    />
-                  </svg>
-                </span>
-                <span className=" pointer-events-none">لپ تاپ</span>
-              </Link>
-            </li>
-
-            <li className="text-lg">
-              <Link
-                href="#"
-                className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category="smartPhone"
-                onClick={handleCategory}
-              >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 absolute right-2 top-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
-                    />
-                  </svg>
-                </span>
-                <span className="pointer-events-none">موبایل هوشمند</span>
-              </Link>
-            </li>
-
-            <li className="text-lg">
-              <Link
-                href="#"
-                className="py-2 px-2 hover:bg-gray-200 flex items-start gap-4 rounded-lg"
-                data-category="smartWatch"
-                onClick={handleCategory}
-              >
-                <span className="w-6 h-6 bg-gray-200 rounded-full relative pointer-events-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 absolute right-2 top-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
-                    />
-                  </svg>
-                </span>
-                <span className="pointer-events-none">ساعت هوشمند</span>
-              </Link>
-            </li>
-          </ul>
+          <Category handleCategory={handleCategory} />
           <h3 className="text-orange-400 font-bold text-xl mt-4">
             جستوجوی پیشرفته
           </h3>
@@ -237,70 +166,11 @@ const SideBarSection = ({ isProductDetails }) => {
                   </MuiAccordionSummary>
                   <MuiAccordionDetails>
                     <Typography component={"span"}>
-                      <form ref={formRef}>
-                        <ul className="flex gap-1 flex-col py-2 divide-y-1 relative divide-gray-950">
-                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                            <input
-                              id="price-1"
-                              type="checkbox"
-                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                              name="priceFliterCheckbox1"
-                              data-price={10000000}
-                              checked={formElems["priceFliterCheckbox1"]}
-                              onChange={handleCheckChanges}
-                            />
-                            <label
-                              htmlFor="price-1"
-                              className="cursor-pointer select-none"
-                            >{`کمتر از 1 میلیون`}</label>
-                          </li>
-                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                            <input
-                              id="price-2"
-                              type="checkbox"
-                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                              name="priceFliterCheckbox2"
-                              data-price={20000000}
-                              checked={formElems["priceFliterCheckbox2"]}
-                              onChange={handleCheckChanges}
-                            />
-                            <label
-                              htmlFor="price-2"
-                              className="cursor-pointer select-none"
-                            >{`کمتر از 20 میلیون`}</label>
-                          </li>
-                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                            <input
-                              id="price-3"
-                              type="checkbox"
-                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                              name="priceFliterCheckbox3"
-                              data-price={30000000}
-                              checked={formElems["priceFliterCheckbox3"]}
-                              onChange={handleCheckChanges}
-                            />
-                            <label
-                              htmlFor="price-3"
-                              className="cursor-pointer select-none"
-                            >{`کمتر از 30 میلیون`}</label>
-                          </li>
-                          <li className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-100">
-                            <input
-                              id="price-4"
-                              type="checkbox"
-                              className="w-4 h-4 text-orange-500 rounded border-none focus:ring-0 focus:ring-white focus:outline-none bg-gray-100 cursor-pointer"
-                              name="priceFliterCheckbox4"
-                              data-price={40000000}
-                              checked={formElems["priceFliterCheckbox4"]}
-                              onChange={handleCheckChanges}
-                            />
-                            <label
-                              htmlFor="price-4"
-                              className="cursor-pointer select-none"
-                            >{`کمتر از 40 میلیون`}</label>
-                          </li>
-                        </ul>
-                      </form>
+                      <PriceFilter
+                        formRef={formRef}
+                        formElems={formElems}
+                        handleCheckChanges={handleCheckChanges}
+                      />
                     </Typography>
                   </MuiAccordionDetails>
                 </MuiAccordion>
@@ -359,7 +229,7 @@ const SideBarSection = ({ isProductDetails }) => {
                   </MuiAccordionSummary>
                   <MuiAccordionDetails>
                     <Typography component={"span"}>
-                     <BrandFilter/>
+                      <BrandFilter />
                     </Typography>
                   </MuiAccordionDetails>
                 </MuiAccordion>
